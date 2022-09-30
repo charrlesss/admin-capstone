@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { serviceData, ServiceDataType } from "./data/card.data";
-import Footer from "./layouts/footer";
-import Header from "./layouts/header";
-import "./assets/google-style.css";
-import { useInterceptorAxios } from "./lib/interceptor-axios";
+import { serviceData, ServiceDataType } from "../data/card.data";
+import Footer from "../layouts/footer";
+import Header from "../layouts/header";
+import "../assets/google-style.css";
+import { useInterceptorAxios } from "../lib/interceptor-axios";
 import { MdDashboard } from "react-icons/md";
-import { SigninPages } from "./pages/signin.pages";
+import { SigninPages } from "../pages/signin.pages";
 
-const App: React.FC = (): JSX.Element => {
+export const ContactPages: React.FC = (): JSX.Element => {
   const [goToReservation, setgoToReservation] = useState<boolean>(false);
-
   const { isAuthenticated } = useInterceptorAxios();
+  
   return (
     <main
       className="w-full max:h-[100vh] h-auto   "
@@ -132,4 +132,3 @@ const App: React.FC = (): JSX.Element => {
   );
 };
 
-export default App;
