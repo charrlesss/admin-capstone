@@ -1,142 +1,136 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Navigation } from "react-minimal-side-navigation";
-import Icon from "awesome-react-icons";
-import { FaChevronRight } from "react-icons/fa";
 import "../assets/sidebar.css";
 import "react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css";
-import { ReactSearchAutocomplete } from "react-search-autocomplete";
-import { SidebarDataRoutesTypes } from "../features/Administrative/data/sidebar-data-routes";
-import { items } from "../features/Administrative/data/search-data-routes";
+import { sidebarDataRoutesOpen,sidebarDataRoutesClose } from "../features/shared/data/sidebar-data-routes";
+import { Avatar } from "@mui/material";
+import Icon from "awesome-react-icons";
+import { BiLogOutCircle } from "react-icons/bi";
+import {
+  getLogoutClient,
+  selectClientLogout,
+} from "../data/slices/logout.slice";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../hooks/dispatch-selector.hooks";
+import { useInterceptorAxios } from "../lib/interceptor-axios";
+import { useGetClientDetails } from "../hooks/user-details.hooks";
+import { FillDetailsComponent } from "../component/fill-details-component";
+import { useResize } from "../hooks/resize";
+import Cookie from "js-cookie";
 
 export const SideBar: React.FC<{
-  callback: (value: boolean) => void;
-  sidebarItems: Array<SidebarDataRoutesTypes>;
-}> = ({ callback, sidebarItems }): JSX.Element => {
-  const naviagte = useNavigate();
+  isOpen: boolean;
+  callback: () => void;
+}> = ({ isOpen, callback }): JSX.Element => {
+  const {width} = useResize()
+  const { client } = useGetClientDetails();
+  const [openFillDetails, setOpenFillDetails] = useState<boolean>(false);
+  const { getAccessToken, instance } = useInterceptorAxios();
+  const logoutClient = useAppSelector(selectClientLogout);
+  const navigate = useNavigate();
   const location = useLocation();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const dispatch = useAppDispatch();
 
-  const formatResult = (item: { id: number; name: string }) => {
-    return (
-      <div>
-        <span>{item.name}</span>
-      </div>
-    );
-  };
-
-  const handleOnSelect = (item: any) => {
-    switch (item.id) {
-      case 0:
-        naviagte("/admin");
-        break;
-      case 1:
-        naviagte("/admin/facilities");
-        break;
-      case 2:
-        naviagte("/admin/facilities/schedule");
-        break;
-      case 3:
-        naviagte("/admin/facilities/active-shipment");
-        break;
-      case 4:
-        naviagte("/admin/facilities/assigning-drivers");
-        break;
-      case 5:
-        naviagte("/admin/facilities/reserve-transaction");
-        break;
-      case 6:
-        naviagte("/admin/transaction-document");
-        break;
-      case 7:
-        naviagte("/admin/transaction-document/processing-shipping");
-        break;
-      case 8:
-        naviagte("/admin/transaction-document/drivers-entries");
-        break;
-      case 9:
-        naviagte("/admin/transaction-document/bills-landing");
-        break;
-      case 10:
-        naviagte("/admin/transaction-document/managing-budget");
-        break;
-      case 11:
-        naviagte("/admin/transaction-document/payroll");
-        break;
-      case 12:
-        naviagte("/admin/legal");
-        break;
-      case 13:
-        naviagte("/admin/legal/company-policies");
-        break;
-      case 14:
-        naviagte("/admin/legal/complians-management");
-        break;
-      case 15:
-        naviagte("/admin/legal/complians-transaction");
-        break;
-      case 16:
-        naviagte("/admin/legal/feedback");
-        break;
-      case 17:
-        naviagte("/admin/visitor");
-        break;
-      case 18:
-        naviagte("/admin/visitor/customer-queries");
-        break;
+  useEffect(() => {
+    if (client && (!client.birthdate || !client.gender)) {
+      setOpenFillDetails(true);
     }
-  };
+  }, [client]);
+
+  useEffect(() => {
+    if (logoutClient?.data?.success) {
+      navigate(logoutClient.data.redirect);
+    }
+  }, [logoutClient, navigate]);
 
   return (
     <React.Fragment>
       <div
-        onClick={(): void => {
-          setSidebarOpen(() => true);
-          callback(true);
-        }}
         className={`${
-          sidebarOpen ? "-left-full" : "left-4"
-        } z-[100] transition-all duration-450 ease-out-in absolute  top-[50%] -translate-y-1/2 w-auto h-auto text-[3rem] font-thin text-primary cursor-pointer hover:text-[3.5em]`}
-      >
-        <FaChevronRight />
-      </div>
-      <div
-        className={` bg-primary  min-h-full max-auto absolute left-0 w-[300px]  transition-all duration-400 ease-out-in bg-white shadow-sm shadow-black ${
-          !sidebarOpen && "-left-full"
+          openFillDetails ? "-z-1" : "z-[100]"
+        } bg-primary  min-h-full max-auto md:relative fixed   left-0   transition-all duration-400 ease-out-in bg-white shadow-sm shadow-black ${
+          isOpen ? "w-[300px] " : "  md:w-[80px] w-0 md:left-0 -left-full"
         }`}
       >
-        <div className="flex items-center px-4  text-center py-4 z-[100]  text-white">
-          <span className="flex-1 mx-2 text-lg  font-normal font-['Bebas_Neue'] tracking-[2px] ">
-            admin
-          </span>
+        <div className="flex items-center px-4  text-center py-4 z-[100] justify-between text-white">
+          <div className={`${isOpen ? 'flex' :"hidden"} w-auto h-auto p-1  items-center justify-center border rounded-2xl bg-white`}>
+            <span className="text-black flex-1 mx-2 text-lg  font-normal font-['Bebas_Neue'] tracking-[2px] ">
+              FRE<span className="text-blue-600">IGHT</span>
+            </span>
+          </div>
           <button
             onClick={(): void => {
-              setSidebarOpen(() => false);
-              callback(false);
+              callback();
             }}
             type="button"
-            className="z-[100]"
+            className="z-[100] md:hidden block"
           >
-            <Icon name="burger" className="w-6 h-6" />
+            <Icon name="burger" className="w-6 h-6 text-white " />
           </button>
         </div>
-        <div className="w-full relative px-2 z-[100]">
-          <ReactSearchAutocomplete
-            items={items}
-            onSelect={handleOnSelect}
-            formatResult={formatResult}
-          />
+        <div className={`${isOpen ? 'relative' :"hidden"}  w-full mt-10 `}>
+          <div className=" w-full flex flex-col justify-center items-center">
+            <Avatar
+              alt="Remy Sharp"
+              src={ client?.profile}
+              sx={{ width: 120, height: 120 }}
+            />
+          </div>
+          <div className="mt-6 font-['Bebas_Neue'] tracking-[1.8px] text-white px-2 text-center">
+            {client?.name}
+          </div>
+          <div className="container mx-auto  p-2  text-center">
+            <button className="p-5 text-white rounded-xl bg-transparent font-['Bebas_Neue']  tracking-[3px] text-[13px]   font-normal py-1 border border-white  shadow">
+              Profile
+            </button>
+          </div>
         </div>
-        <div className="z-[90] relative flex flex-col pb-4 mt-3  font-['Bebas_Neue'] tracking-[2px] px-2 ">
+        <div
+          className={`${
+            openFillDetails ? "-z-1" : "z-[90]"
+          } ${isOpen ? '':'close-text'} ${isOpen ?"mt-16" :""} relative flex flex-col pb-4    font-['Bebas_Neue'] tracking-[2px] px-2 `}
+        >
           <Navigation
             activeItemId={location.pathname}
             onSelect={({ itemId }) => {
-              naviagte(itemId);
+              console.log(width)
+              if(width <= 767){
+                Cookie.remove('sidebar')
+              }
+              navigate(itemId);
             }}
-            items={sidebarItems as any}
+
+            items={isOpen ? sidebarDataRoutesOpen  as any: sidebarDataRoutesClose as any}
           />
+
+          <button
+            className="flex gap-4  px-5 py-3 items-center rounded-xl hover:bg-[#076FAC]"
+            onClick={() => {
+              dispatch(
+                getLogoutClient({
+                  ACCESS_TOKEN: getAccessToken(),
+                  interceptor: instance,
+                })
+              );
+            }}
+          >
+            <BiLogOutCircle className="text-white text-[20px] " />
+            <span className={`${isOpen ? 'flex-1' :'hidden'} text-white tracking-[2px] text-left`}>
+              Logout
+            </span>
+          </button>
         </div>
       </div>
+
+      <FillDetailsComponent
+        onClose={() => {
+          setOpenFillDetails(false);
+        }}
+        open={openFillDetails}
+      />
     </React.Fragment>
   );
 };

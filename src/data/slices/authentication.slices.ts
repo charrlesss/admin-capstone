@@ -29,7 +29,7 @@ export const getAuthentication = createAsyncThunk(
 );
 
 /* Main Slice */
-export const getAuthenticationSlice = createSlice({
+export const getAuthenticationSlice:any = createSlice({
   name: "getAuthentication",
   initialState,
   reducers: {},

@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { SigninPages } from "../pages/signin.pages";
 import { useInterceptorAxios } from "../lib/interceptor-axios";
 
-const Header: React.FC<{ activeUrl?: string }> = (props): JSX.Element => {
+const Header: React.FC = (): JSX.Element => {
   const [openLoginChooserModal, setOpenLoginChooserModal] =
     useState<boolean>(false);
   const [openFormFor, setOpenFormFor] = useState<string>("");

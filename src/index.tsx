@@ -4,13 +4,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
-import { AdminDashboardPage } from "./features/Administrative/presentation/pages";
-import "./index.css";
+import { AdminDashboardPage } from "./features/shared/presentation/pages";
+import "./assets/index.css";
 import { store } from "./config/store";
 import { AboutPages } from "./pages/about.pages";
 import { ContactPages } from "./pages/contact.pages";
 import { LoadingPage } from "./pages/loading.page";
 import { ProtectedRoutesComponent } from "./component/protected-routes-component";
+import { FalitiesPage } from "./features/facilities/pages/falities.page";
+import { ScheduleYourVisitPages } from "./features/sched/pages";
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -39,6 +42,9 @@ root.render(
             element={<ProtectedRoutesComponent/>}
           >
             <Route index element={<AdminDashboardPage />} />
+            <Route path='facilities' element={<FalitiesPage />} />
+            <Route path='sched' element={<ScheduleYourVisitPages />} />
+
           </Route>
         </Route>
       </Routes>

@@ -1,4 +1,4 @@
-import React ,{useEffect} from "react";
+import React from "react";
 import { TextField, IconButton ,Button} from "@mui/material";
 import { MdAlternateEmail } from "react-icons/md";
 import { BiKey } from "react-icons/bi";
@@ -7,8 +7,8 @@ import { BsEyeSlashFill } from "react-icons/bs";
 import InputAdornment from "@mui/material/InputAdornment";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { selectAuthUser ,getAuthUser } from "../features/Administrative/presentation/slices/auth-user.slice";
-import { useAppDispatch, useAppSelector } from "../hooks/dispatch-selector.hooks";
+import { getAuthUser } from "../features/shared/presentation/slices/auth-user.slice";
+import { useAppDispatch } from "../hooks/dispatch-selector.hooks";
 
 const validationSchema = yup.object({
   email: yup.string().email().required().min(8),
@@ -16,7 +16,6 @@ const validationSchema = yup.object({
 });
 
 export const SigninFormComponent: React.FC = (): JSX.Element => {
-  const selectAuthUserSignin = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
   const [passwordShow, setPasswordShow] = React.useState<boolean>(false);
 
@@ -41,7 +40,6 @@ export const SigninFormComponent: React.FC = (): JSX.Element => {
 
 
 
-  console.log(selectAuthUserSignin)
 
   return (
     <main className="relative">

@@ -5,6 +5,7 @@ module.exports = {
     screens: {
       xs: "550px",
       "2xs": "320px",
+      tablet:'862px' ,
       ...defaultTheme.screens,
     },
     extend: {

@@ -3,13 +3,8 @@ import { RootState } from "../../../../config/store";
 
 import { RegisterRepository ,RegisterResponse ,RegisterParams } from "../../data/user.repository";
 
-interface AuthUserInterface{
-    email:string,
-    password:string
-}
 
-
-export enum AuthState {
+export enum RegisterClientState {
   initial,
   inProgress,
   success,
@@ -17,10 +12,10 @@ export enum AuthState {
 }
 
 const initialState: {
-  status: AuthState;
+  status: RegisterClientState;
   data: RegisterResponse | undefined;
 } = {
-  status: AuthState.initial,
+  status: RegisterClientState.initial,
   data: undefined,
 };
 
@@ -40,7 +35,7 @@ export const getRegisterUserSlice = createSlice({
   extraReducers: (builder: any) => {
     builder
       .addCase(getRegisterUser.pending, (state: any) => {
-        state.status = AuthState.inProgress;
+        state.status = RegisterClientState.inProgress;
       })
       .addCase(
         getRegisterUser.fulfilled,
@@ -49,7 +44,7 @@ export const getRegisterUserSlice = createSlice({
           action: PayloadAction<{ data: RegisterResponse }>
         ) => {
           const data = action.payload;
-          state.status = AuthState.success;
+          state.status = RegisterClientState.success;
           state.data = data;
         }
       )
@@ -60,7 +55,7 @@ export const getRegisterUserSlice = createSlice({
           action: PayloadAction<{ data: RegisterResponse }>
         ) => {
           state.data = action.payload.data;
-          state.status = AuthState.success;
+          state.status = RegisterClientState.success;
         }
       );
   },

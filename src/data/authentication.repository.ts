@@ -33,3 +33,15 @@ export function GetClientRepository(params: {
     },
   });
 }
+
+
+export function GetLogoutClientRepository(params: {
+  ACCESS_TOKEN:string,
+  interceptor:AxiosInstance
+}): Promise<any> {
+  return params.interceptor.delete(`/logout`, {
+    headers: {
+         Authorization: `Bearer ${params.ACCESS_TOKEN}`,
+    },
+  });
+}

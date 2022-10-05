@@ -45,7 +45,7 @@ export const SigninPages: React.FC<LoginChooserModalProps> = (
               {props.whatForm === "signin" ? (
                 <SigninFormComponent />
               ) : props.whatForm === "signup" ? (
-                <SignupFormComponent />
+                <SignupFormComponent  />
               ) : null}
             </div>
             <div className="flex w-full  bg-transparent h-auto mb-4 items-center">

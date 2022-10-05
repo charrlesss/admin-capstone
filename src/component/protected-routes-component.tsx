@@ -1,31 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Outlet, Navigate } from "react-router-dom";
-import {
-  selectAuthentication,
-  getAuthentication
-} from "../data/slices/authentication.slices";
-import {
-  useAppSelector,
-  useAppDispatch,
-} from "../hooks/dispatch-selector.hooks";
+import { useInterceptorAxios } from "../lib/interceptor-axios";
 import { BackdropLoading } from "../pages/loading.page";
 export const ProtectedRoutesComponent = () => {
-  const selectAuthenticated: any = useAppSelector(selectAuthentication);
-  const dispatch = useAppDispatch();
+  const  {isAuthenticated} = useInterceptorAxios()
 
 
-  useEffect(()=>{
-    dispatch(getAuthentication())
-  },[dispatch])
-
-
-  if(selectAuthenticated?.data === undefined){
+  if(isAuthenticated() === undefined){
     return <BackdropLoading open={true} />
   }
 
   return (
     <div>
-      {selectAuthenticated?.data?.success ? (
+      {isAuthenticated() ? (
           <Outlet />
       ) : (
         <Navigate to="/" />

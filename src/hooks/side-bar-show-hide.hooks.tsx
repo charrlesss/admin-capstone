@@ -1,14 +1,23 @@
 import { useState, useCallback } from "react";
+import Cookie from "js-cookie";
 
 interface useSideBarShowHideHooksTypes {
   isShow: boolean;
-  callback: (value: boolean) => void;
+  callback: () => void;
 }
 
 export const useSideBarShowHideHooks = (): useSideBarShowHideHooksTypes => {
-  const [isShow, setIsShow] = useState(true);
-  const callback = useCallback((value: boolean) => {
-    setIsShow((): boolean => value);
+  const [isShow, setIsShow] = useState(Cookie.get("sidebar") ? true : false);
+
+  const callback = useCallback(() => {
+    setIsShow((isSHowSideBar): boolean => {
+      if (isSHowSideBar) {
+        Cookie.set("sidebar", "");
+        return !isSHowSideBar;
+      }
+      Cookie.set("sidebar", "open");
+      return !isSHowSideBar;
+    });
   }, []);
 
   return {

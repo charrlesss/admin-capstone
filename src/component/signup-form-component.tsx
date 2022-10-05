@@ -12,8 +12,8 @@ import { MdAlternateEmail } from "react-icons/md";
 import { BiKey } from "react-icons/bi";
 import { IoEyeSharp } from "react-icons/io5";
 import { BsEyeSlashFill } from "react-icons/bs";
-import { useAppDispatch, useAppSelector } from "../hooks/dispatch-selector.hooks";
-import { selectRegisterUser ,getRegisterUser } from "../features/Administrative/presentation/slices/register-user.slice";
+import { useAppDispatch  } from "../hooks/dispatch-selector.hooks";
+import {  getRegisterUser } from "../features/shared/presentation/slices/register-user.slice";
 
 interface PasswordType {
   password?: boolean;
@@ -43,7 +43,6 @@ const genderSelection: { value: string }[] = [
 ];
 
 export const SignupFormComponent = () => {
-  const selectRegisterUserSignup = useAppSelector(selectRegisterUser)
   const dispatch = useAppDispatch()
   const [passwordShow, setPasswordShow] = React.useState<PasswordType>({
     password: false,
@@ -82,7 +81,6 @@ export const SignupFormComponent = () => {
     setCheckBox(!check);
   };
 
-  console.log(selectRegisterUserSignup)
   return (
     <main className="container mx-auto ">
       <form onSubmit={formik.handleSubmit} >

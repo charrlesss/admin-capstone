@@ -27,7 +27,6 @@ export const useInterceptorAxios = () => {
 
   useEffect(() => {
     if (authenticateUser?.data === undefined) return;
-
     instance.interceptors.response.use(
       (res) => {
         return res;
@@ -54,6 +53,7 @@ export const useInterceptorAxios = () => {
       }
     );
   }, [authenticateUser]);
+
 
   const getAccessToken = useCallback(
     (): string =>

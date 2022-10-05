@@ -12,9 +12,15 @@ import CircularProgress from "@mui/material/CircularProgress";
 import {
   AuthUserState,
   selectAuthUser,
-} from "../features/Administrative/presentation/slices/auth-user.slice";
+} from "../features/shared/presentation/slices/auth-user.slice";
+import { selectRegisterUser, RegisterClientState} from "../features/shared/presentation/slices/register-user.slice";
+import { selectCompleteDetailsUser ,completeDetailsState } from "../features/shared/presentation/slices/complete-details";
+import {SigninPages} from '../pages/signin.pages'
 export const LoadingPage: React.FC = (): JSX.Element => {
-  const selectAuthUserSignin: any = useAppSelector(selectAuthUser);
+  const AuthUserSignin: any = useAppSelector(selectAuthUser);
+  const RegisterUserSignup: any = useAppSelector(selectRegisterUser);
+  const CompleteDetailsUser: any = useAppSelector(selectCompleteDetailsUser);
+  const [openLoginChooserModal ,setOpenLoginChooserModal] = useState<boolean>(false)
   const [openBackdropLoading, setOpenBackdropLoading] = useState(false);
   
 
@@ -35,7 +41,7 @@ export const LoadingPage: React.FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    switch (selectAuthUserSignin.status) {
+    switch (AuthUserSignin.status) {
       case AuthUserState.inProgress:
         setOpenBackdropLoading(true);
         break;
@@ -43,22 +49,70 @@ export const LoadingPage: React.FC = (): JSX.Element => {
         setOpenBackdropLoading(false);
         break;
       case AuthUserState.success:
-        if (!selectAuthUserSignin.data.success) {
-          showAlert(setFailsAlert, selectAuthUserSignin.data.message);
+        if (!AuthUserSignin.data.success) {
+          showAlert(setFailsAlert, AuthUserSignin.data.message);
           setOpenBackdropLoading(false);
           return;
         }
-        showAlert(setSuccessAlert, selectAuthUserSignin.data.message);
+        showAlert(setSuccessAlert, AuthUserSignin.data.message);
         window.location.href = '/dashboard';
         setOpenBackdropLoading(false);
         break;
       case AuthUserState.fail:
-        showAlert(setFailsAlert, selectAuthUserSignin.data.message);
+        showAlert(setFailsAlert, AuthUserSignin.data.message);
         setOpenBackdropLoading(false);
         break;
     }
-  }, [selectAuthUserSignin, dispatch]);
+  }, [AuthUserSignin, dispatch]);
 
+  useEffect(() => {
+    switch (RegisterUserSignup.status) {
+      case RegisterClientState.inProgress:
+        setOpenBackdropLoading(true);
+        break;
+      case RegisterClientState.initial:
+        setOpenBackdropLoading(false);
+        break;
+      case RegisterClientState.success:
+        if (!RegisterUserSignup.data.success) {
+          showAlert(setFailsAlert, RegisterUserSignup.data.message);
+          setOpenBackdropLoading(false);
+          return;
+        }
+        showAlert(setSuccessAlert, RegisterUserSignup.data.message);
+        setOpenLoginChooserModal(true)
+        setOpenBackdropLoading(false);
+        break;
+      case RegisterClientState.fail:
+        showAlert(setFailsAlert, RegisterUserSignup.data.message);
+        setOpenBackdropLoading(false);
+        break;
+    }
+  }, [RegisterUserSignup, dispatch]);
+
+
+  useEffect(() => {
+    switch (CompleteDetailsUser.status) {
+      case completeDetailsState.inProgress:
+        setOpenBackdropLoading(true);
+        break;
+      case completeDetailsState.initial:
+        setOpenBackdropLoading(false);
+        break;
+      case completeDetailsState.success:
+   
+        showAlert(setSuccessAlert, CompleteDetailsUser.data.message);
+        setTimeout(()=>{
+          window.location.reload()
+        },1000) 
+        setOpenBackdropLoading(false);
+        break;
+      case completeDetailsState.fail:
+        showAlert(setFailsAlert, CompleteDetailsUser.data.message);
+        setOpenBackdropLoading(false);
+        break;
+    }
+  }, [CompleteDetailsUser, dispatch]);
 
   return (
     <div>
@@ -74,6 +128,14 @@ export const LoadingPage: React.FC = (): JSX.Element => {
         message={failsAlert.message}
       />
       <BackdropLoading open={openBackdropLoading} />
+      <SigninPages
+        whatForm={openLoginChooserModal  ? 'signin' : ''}
+        open={openLoginChooserModal}
+        onClose={() => {
+          window.location.href ='/'
+          setOpenLoginChooserModal(false);
+        }}
+      />
     </div>
   );
 };
