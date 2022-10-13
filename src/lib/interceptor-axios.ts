@@ -7,10 +7,10 @@ import {
 import {
   selectAuthentication,
   getAuthentication,
-} from "../data/slices/authentication.slices";
+} from "../features/shared/presentation/slices/authentication.slices";
 
 const instance = axios.create({
-  baseURL: "http://localhost:4000",
+  baseURL: process.env.REACT_APP_API,
   headers: {
     "Content-Type": "application/json",
   },
@@ -27,6 +27,7 @@ export const useInterceptorAxios = () => {
 
   useEffect(() => {
     if (authenticateUser?.data === undefined) return;
+
     instance.interceptors.response.use(
       (res) => {
         return res;
@@ -53,7 +54,6 @@ export const useInterceptorAxios = () => {
       }
     );
   }, [authenticateUser]);
-
 
   const getAccessToken = useCallback(
     (): string =>

@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { MdOutlineFeaturedPlayList } from "react-icons/md";
 import { AiOutlineUser, AiTwotonePhone } from "react-icons/ai";
 import { BsFillCalendar2CheckFill, BsThreeDots } from "react-icons/bs";
-import { SigninPages } from "../pages/signin.pages";
+import { SigninPages } from "../features/shared/presentation/pages/signin.pages";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { useInterceptorAxios } from "../lib/interceptor-axios";
 import { MdDashboard } from "react-icons/md";

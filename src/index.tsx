@@ -4,15 +4,27 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
-import { AdminDashboardPage } from "./features/shared/presentation/pages";
 import "./assets/index.css";
 import { store } from "./config/store";
-import { AboutPages } from "./pages/about.pages";
-import { ContactPages } from "./pages/contact.pages";
-import { LoadingPage } from "./pages/loading.page";
-import { ProtectedRoutesComponent } from "./component/protected-routes-component";
-import { FalitiesPage } from "./features/facilities/pages/falities.page";
-import { ScheduleYourVisitPages } from "./features/sched/pages";
+import { AboutPages } from "./features/shared/presentation/pages/about.pages";
+import { ContactPages } from "./features/shared/presentation/pages/contact.pages";
+import { LoadingPage } from "./features/shared/presentation/pages/loading.page";
+import { AdministrativeProtectedRoutesComponent } from "./features/shared/presentation/components/protected-routes/Administrative/administrative-protected-routes-component";
+import { AdministrativeProtectedAdminRoutesComponent } from "./features/shared/presentation/components/protected-routes/Administrative/administrative-protected-admin-routes-component";
+import { Admin } from "./features/Administrative/admin/presentation/pages";
+import { ClientDashboardPage } from "./features/Administrative/client/dashboard/presentation/pages";
+import { FalitiesPage } from "./features/Administrative/client/facilities/presentation/pages/falities.page";
+import { ScheduleYourVisitPages } from "./features/Administrative/client/make-appointment-request/presentation/pages";
+import { Profile } from "./features/Administrative/client/profile/presentation/pages";
+import { FacilityPages } from "./features/Administrative/client/facilities/presentation/pages/facility.pages";
+import { AdministrativeDashboardPage } from "./features/Administrative/admin/presentation/pages/administrative-dashboard.page";
+import { AdministrativeProfilePage } from "./features/Administrative/admin/presentation/pages/administrative-profile.page";
+import { AdministrativeVisitorPage } from "./features/Administrative/admin/presentation/pages/administrative-visitor.page";
+import { AdministrativeEmployeePage } from "./features/Administrative/admin/presentation/pages/administrative-employee.page";
+import { AdministrativeAppoinmentsPage } from "./features/Administrative/admin/presentation/pages/administrative-appoinments.page";
+import { AdministrativeLegalPage } from "./features/Administrative/admin/presentation/pages/administrative-legal.page";
+import { AdministrativeFacilitiesPage } from "./features/Administrative/admin/presentation/pages/administrative-facilities.page";
+import { AdministrativeDocumentPage } from "./features/Administrative/admin/presentation/pages/administrative-document.page";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -22,8 +34,9 @@ root.render(
   <Provider store={store}>
     <BrowserRouter basename="/">
       <Routes>
-        <Route  element={<LoadingPage />}>
+        <Route element={<LoadingPage />}>
           <Route path={process.env.REACT_APP_DOMAIN_URL} element={<App />} />
+
           <Route
             path={process.env.REACT_APP_DOMAIN_URL + "/reservation"}
             element={<div>reservation</div>}
@@ -38,13 +51,42 @@ root.render(
           />
 
           <Route
-            path={process.env.REACT_APP_DOMAIN_URL + "dashboard"}
-            element={<ProtectedRoutesComponent/>}
+            path={process.env.REACT_APP_DOMAIN_URL + "/admin"}
+            element={<Admin />}
+          />
+          <Route
+            path={process.env.REACT_APP_DOMAIN_URL + "administrative"}
+            element={<AdministrativeProtectedAdminRoutesComponent />}
           >
-            <Route index element={<AdminDashboardPage />} />
-            <Route path='facilities' element={<FalitiesPage />} />
-            <Route path='sched' element={<ScheduleYourVisitPages />} />
+            <Route index element={<AdministrativeDashboardPage />} />
+           <Route path="profile" element={<AdministrativeProfilePage />} />
+            <Route
+              path="appointments"
+              element={<AdministrativeAppoinmentsPage />}
+            />
+          <Route path="visitors" element={<AdministrativeVisitorPage />} />
+            <Route path="employee" element={<AdministrativeEmployeePage />} />
+            <Route
+              path="facilities"
+              element={<AdministrativeFacilitiesPage />}
+            />
+            <Route path="documents" element={<AdministrativeDocumentPage />} />
+            <Route path="legal" element={<AdministrativeLegalPage />} /> 
+          </Route>
 
+          <Route
+            path={process.env.REACT_APP_DOMAIN_URL + "dashboard"}
+            element={<AdministrativeProtectedRoutesComponent />}
+          >
+            <Route index element={<ClientDashboardPage />} />
+            <Route path="facilities" element={<FalitiesPage />}>
+              <Route path=":facility" element={<FacilityPages />} />
+            </Route>
+            <Route
+              path="make-appointment-request"
+              element={<ScheduleYourVisitPages />}
+            />
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Route>
       </Routes>

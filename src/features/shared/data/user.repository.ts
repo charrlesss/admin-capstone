@@ -16,6 +16,22 @@ export interface RegisterParams {
 export interface CompleteDetailsParams {
   gender: string;
   birthdate: string;
+  address: string;
+  contact: string;
+  profile: any;
+  ACCESS_TOKEN: string;
+  insterceptor: AxiosInstance;
+}
+
+export interface UpdateProfileParams {
+  _id:any
+  gender: string;
+  birthdate: string;
+  address: string;
+  contact: string;
+  profile: any;
+  name: string;
+  email: string;
   ACCESS_TOKEN: string;
   insterceptor: AxiosInstance;
 }
@@ -36,6 +52,13 @@ export interface RegisterResponse {
 }
 
 export interface CompleteDetailsResponse {
+  data: {
+    messages: string;
+    success: boolean;
+  };
+}
+
+export interface UpdateProfileResponse {
   data: {
     messages: string;
     success: boolean;
@@ -69,12 +92,44 @@ export function RegisterRepository(
 export function CompleteDetailsRepository(
   params: CompleteDetailsParams
 ): Promise<CompleteDetailsResponse> {
+  const formData = new FormData();
+  formData.append("gender", params.gender);
+  formData.append("birthdate", params.birthdate);
+  formData.append("address", params.address);
+  formData.append("contact", params.contact);
+  formData.append("profile", params.profile);
+
   return params.insterceptor.post(
     `${REACT_APP_API}/complete-details`,
-    { gender: params.gender, birthdate: params.birthdate },
+    formData,
     {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${params.ACCESS_TOKEN}`,
+      },
+      withCredentials: true,
+    }
+  );
+}
+
+export function UpdateProfileRepository(
+  params: UpdateProfileParams
+): Promise<UpdateProfileResponse> {
+  const formData = new FormData();
+  formData.append("gender", params.gender);
+  formData.append("birthdate", params.birthdate);
+  formData.append("address", params.address);
+  formData.append("contact", params.contact);
+  formData.append("profile", params.profile);
+  formData.append("email", params.email);
+  formData.append("name", params.name);
+
+  return params.insterceptor.post(
+    `${process.env.REACT_APP_API}/update-profile`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${params.ACCESS_TOKEN}`,
       },
       withCredentials: true,

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
-import { SigninPages } from "../pages/signin.pages";
+import { SigninPages } from "../features/shared/presentation/pages/signin.pages";
 import { useInterceptorAxios } from "../lib/interceptor-axios";
 
 const Header: React.FC = (): JSX.Element => {
