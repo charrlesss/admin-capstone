@@ -7,7 +7,6 @@ app.use(express.json());
 app.use(express.static(path.resolve("./build")));
 
 app.get("*", (_, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
   res.sendFile(path.resolve("./build/index.html"));
 });
 
