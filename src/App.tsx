@@ -4,7 +4,6 @@ import { InitialBackroundComponent } from "./features/shared/presentation/compon
 import { useInterceptorAxios } from "./lib/interceptor-axios";
 
 const App: React.FC = (): JSX.Element => {
-  const { isAuthenticated } = useInterceptorAxios();
   return (
     <React.Fragment>
       <InitialBackroundComponent />
