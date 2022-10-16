@@ -74,7 +74,7 @@ export const useInterceptorAxios = () => {
     [authenticateUser]
   );
 
-  console.log(authenticateUser)
+  console.log(authenticateUser);
   return {
     getAccessToken,
     getRefreshToken,

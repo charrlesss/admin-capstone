@@ -109,7 +109,6 @@ export function RemoveAccountNotVerifiedRepository(
   return axios.post(process.env.REACT_APP_API + "/not-verify-account", params, {
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
     },
     withCredentials: true,
   });

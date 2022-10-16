@@ -46,6 +46,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
+    "dev": "react-scripts start",
     "predeploy":"npm run build",
     "deploy":"gh-pages -d build",
     "start":"node server.js",
