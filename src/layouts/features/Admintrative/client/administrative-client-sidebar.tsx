@@ -125,7 +125,6 @@ export const AdministrativeClientSidebar: React.FC<{
           <Navigation
             activeItemId={location.pathname}
             onSelect={({ itemId }) => {
-              console.log(width);
               if (width <= 767) {
                 Cookie.remove("sidebar");
               }

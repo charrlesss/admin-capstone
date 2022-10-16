@@ -11,7 +11,21 @@ import { ContactPages } from "./features/shared/presentation/pages/contact.pages
 import { LoadingPage } from "./features/shared/presentation/pages/loading.page";
 import { AdministrativeProtectedRoutesComponent } from "./features/shared/presentation/components/protected-routes/Administrative/administrative-protected-routes-component";
 import { AdministrativeProtectedAdminRoutesComponent } from "./features/shared/presentation/components/protected-routes/Administrative/administrative-protected-admin-routes-component";
-import { Admin } from "./features/Administrative/admin/presentation/pages";
+import {
+  Admin,
+  AdministrativeAppoinmentsAcceptedPage,
+  AdministrativeAppoinmentsPendingPage,
+  AdministrativeAppoinmentsRejectedPage,
+  AdministrativeEmployeeCreatePage,
+  AdministrativeEmployeeDeletePage,
+  AdministrativeEmployeeUpdatePage,
+  AdministrativeFacilitiesCreatePage,
+  AdministrativeFacilitiesDeletePage,
+  AdministrativeFacilitiesUpdatePage,
+  AdministrativeVisitorCreatePage,
+  AdministrativeVisitorDeletePage,
+  AdministrativeVisitorUpdatePage,
+} from "./features/Administrative/admin/presentation/pages";
 import { ClientDashboardPage } from "./features/Administrative/client/dashboard/presentation/pages";
 import { FalitiesPage } from "./features/Administrative/client/facilities/presentation/pages/falities.page";
 import { ScheduleYourVisitPages } from "./features/Administrative/client/make-appointment-request/presentation/pages";
@@ -25,7 +39,9 @@ import { AdministrativeAppoinmentsPage } from "./features/Administrative/admin/p
 import { AdministrativeLegalPage } from "./features/Administrative/admin/presentation/pages/administrative-legal.page";
 import { AdministrativeFacilitiesPage } from "./features/Administrative/admin/presentation/pages/administrative-facilities.page";
 import { AdministrativeDocumentPage } from "./features/Administrative/admin/presentation/pages/administrative-document.page";
-
+import { SignupPages } from "./features/shared/presentation/pages";
+import { SigninPages } from "./features/shared/presentation/pages";
+import { ForgotPasswordPages } from "./features/shared/presentation/pages";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -38,9 +54,20 @@ root.render(
           <Route path={process.env.REACT_APP_DOMAIN_URL} element={<App />} />
 
           <Route
-            path={process.env.REACT_APP_DOMAIN_URL + "/reservation"}
-            element={<div>reservation</div>}
+            path={process.env.REACT_APP_DOMAIN_URL + "/forgot-password"}
+            element={<ForgotPasswordPages />}
           />
+
+          <Route
+            path={process.env.REACT_APP_DOMAIN_URL + "/signup"}
+            element={<SignupPages />}
+          />
+
+          <Route
+            path={process.env.REACT_APP_DOMAIN_URL + "/signin"}
+            element={<SigninPages />}
+          />
+
           <Route
             path={process.env.REACT_APP_DOMAIN_URL + "/features"}
             element={<AboutPages />}
@@ -59,19 +86,72 @@ root.render(
             element={<AdministrativeProtectedAdminRoutesComponent />}
           >
             <Route index element={<AdministrativeDashboardPage />} />
-           <Route path="profile" element={<AdministrativeProfilePage />} />
+            <Route path="profile" element={<AdministrativeProfilePage />} />
             <Route
               path="appointments"
               element={<AdministrativeAppoinmentsPage />}
-            />
-          <Route path="visitors" element={<AdministrativeVisitorPage />} />
-            <Route path="employee" element={<AdministrativeEmployeePage />} />
+            >
+              <Route
+                path="pending"
+                element={<AdministrativeAppoinmentsPendingPage />}
+              />
+              <Route
+                path="rejected"
+                element={<AdministrativeAppoinmentsRejectedPage />}
+              />
+              <Route
+                path="accepted"
+                element={<AdministrativeAppoinmentsAcceptedPage />}
+              />
+            </Route>
+            <Route path="visitors" element={<AdministrativeVisitorPage />} >
+            <Route
+                path="create"
+                element={<AdministrativeVisitorCreatePage />}
+              />
+              <Route
+                path="update"
+                element={<AdministrativeVisitorUpdatePage />}
+              />
+              <Route
+                path="delete"
+                element={<AdministrativeVisitorDeletePage />}
+              />
+            </Route>
+            <Route path="employee" element={<AdministrativeEmployeePage />} >
+            <Route
+                path="create"
+                element={<AdministrativeEmployeeCreatePage />}
+              />
+              <Route
+                path="update"
+                element={<AdministrativeEmployeeUpdatePage />}
+              />
+              <Route
+                path="delete"
+                element={<AdministrativeEmployeeDeletePage />}
+              />
+
+            </Route>
             <Route
               path="facilities"
               element={<AdministrativeFacilitiesPage />}
-            />
+            >
+               <Route
+                path="create"
+                element={<AdministrativeFacilitiesCreatePage />}
+              />
+              <Route
+                path="update"
+                element={<AdministrativeFacilitiesUpdatePage />}
+              />
+              <Route
+                path="delete"
+                element={<AdministrativeFacilitiesDeletePage />}
+              />
+            </Route>
             <Route path="documents" element={<AdministrativeDocumentPage />} />
-            <Route path="legal" element={<AdministrativeLegalPage />} /> 
+            <Route path="legal" element={<AdministrativeLegalPage />} />
           </Route>
 
           <Route

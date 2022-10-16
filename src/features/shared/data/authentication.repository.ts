@@ -11,6 +11,23 @@ export interface AuthenticationResponse {
     };
   };
 }
+export interface VerifyUserEmailResponse {
+  data: {
+    verifying: boolean | undefined;
+    email: string;
+  };
+}
+
+export interface VerifyUserEmailWithCodeResponse {
+  data: {
+    message: string;
+    success: boolean;
+  };
+}
+export interface VerifyUserEmailWithCodeParams {
+  code: string;
+  email: string;
+}
 
 const REACT_APP_API = process.env.REACT_APP_API;
 
@@ -45,23 +62,7 @@ export function GetLogoutClientRepository(params: {
   });
 }
 
-export interface VerifyUserEmailResponse {
-  data: {
-    verifying: boolean | undefined;
-    email: string;
-  };
-}
 
-export interface VerifyUserEmailWithCodeResponse {
-  data: {
-    message: string;
-    success: boolean;
-  };
-}
-export interface VerifyUserEmailWithCodeParams {
-  code: string;
-  email: string;
-}
 
 export function VerifyUserEmailRepository(): Promise<VerifyUserEmailResponse> {
   return axios.get(process.env.REACT_APP_API + "/verifying-account", {

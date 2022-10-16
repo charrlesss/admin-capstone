@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { Button, TextField } from "@mui/material";
@@ -7,8 +7,8 @@ import MuiPhoneNumber from "material-ui-phone-number";
 import { linkToChangePassword } from "../slices/link-to-changepassword.slices";
 import { useInterceptorAxios } from "../../../../../../lib/interceptor-axios";
 import { updateProfile } from "../../../../../shared/presentation/slices/update-profile.slice";
-import {uploadPhoto} from "../../../../../shared/presentation/slices/upload-photo";
 import { useAppDispatch } from "../../../../../../hooks/dispatch-selector.hooks";
+// import { uploadPhoto } from "../../../../../shared/presentation/slices/upload-photo";
 const validationSchema = yup.object({
   name: yup.string().trim().required("name is required."),
   email: yup.string().trim().required(),
@@ -31,9 +31,7 @@ const genderSelection: { value: string }[] = [
 export const ProfileDetailsComponent: React.FC<{ client: any }> = ({
   client,
 }) => {
-  const [uploadPhotoFilename, setUploadPhotoFilename] = useState(
-    window.localStorage.getItem("upload-photo")
-  );
+  const [selectedImage, setSelectedImage] = useState<any>(null);
   const { getAccessToken, instance } = useInterceptorAxios();
   const dispatch = useAppDispatch();
 
@@ -44,7 +42,7 @@ export const ProfileDetailsComponent: React.FC<{ client: any }> = ({
       gender: client?.gender,
       address: client?.address,
       contact: client?.contact,
-      profile: uploadPhotoFilename ? uploadPhotoFilename : client?.profile,
+      profile:  client?.profile,
       birthdate: client?.birthdate,
     },
     validationSchema: validationSchema,
@@ -60,9 +58,7 @@ export const ProfileDetailsComponent: React.FC<{ client: any }> = ({
     },
   });
 
-  useEffect(() => {
-    setUploadPhotoFilename(() => window.localStorage.getItem("upload-photo"));
-  }, []);
+
 
   const handlePhoneChange = (value: any) => {
     if (value) {
@@ -71,23 +67,14 @@ export const ProfileDetailsComponent: React.FC<{ client: any }> = ({
   };
 
   const handleUploadChange = (e: any) => {
-    dispatch(
-      uploadPhoto({
-        ACCESS_TOKEN: getAccessToken(),
-        insterceptor: instance,
-        updloadProfile: e.currentTarget.files[0],
-      })
-    );
+    const file = e.currentTarget.files[0];
+    setSelectedImage(URL.createObjectURL(file));
     formik.setFieldValue("profile", e.currentTarget.files[0]);
   };
 
   const displayImage = () => {
-    if (uploadPhotoFilename) {
-      return (
-        process.env.REACT_APP_UPLOAD_URL +
-        "/upload-photo/" +
-        uploadPhotoFilename
-      );
+    if (selectedImage) {
+      return selectedImage;
     }
     if (client?.profile?.split("https")[1]) {
       return client?.profile;
@@ -97,18 +84,18 @@ export const ProfileDetailsComponent: React.FC<{ client: any }> = ({
   };
 
   const handleChangePassword = () => {
-    dispatch(linkToChangePassword({
-      ACCESS_TOKEN:getAccessToken(),
-      insterceptor:instance,
-      email:client?.email,
-      link:
-      process.env.REACT_APP_DOMAIN_URL === "/"
-        ? 'http://localhost:3000/dashboard/profile"'
-        : process.env.REACT_APP_DOMAIN_URL,
-    }))
+    dispatch(
+      linkToChangePassword({
+        ACCESS_TOKEN: getAccessToken(),
+        insterceptor: instance,
+        email: client?.email,
+        link:
+          process.env.REACT_APP_DOMAIN_URL === "/"
+            ? 'http://localhost:3000/dashboard/profile"'
+            : process.env.REACT_APP_DOMAIN_URL,
+      })
+    );
   };
-
-
 
   return (
     <form
@@ -125,7 +112,7 @@ export const ProfileDetailsComponent: React.FC<{ client: any }> = ({
           />
           <div className="text-center w-full">
             <Button variant="contained" component="label">
-              Upload File
+              Select File
               <input
                 type="file"
                 id="profile"
@@ -343,7 +330,7 @@ export const ProfileDetailsComponent: React.FC<{ client: any }> = ({
           <br />
           <div className="text-center w-full">
             <Button variant="contained" component="label">
-              Upload File
+              Select File
               <input
                 type="file"
                 id="profile"

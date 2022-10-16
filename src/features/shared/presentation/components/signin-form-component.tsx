@@ -58,6 +58,7 @@ export const SigninFormComponent: React.FC = (): JSX.Element => {
         />
 
         <TextField
+        autoComplete="on"
           label="Password"
           placeholder="password"
           variant="outlined"
@@ -95,6 +96,15 @@ export const SigninFormComponent: React.FC = (): JSX.Element => {
           Sign in
         </Button>
       </form>
+      <div className="w-full text-black text-sm mt-2 ">
+        <a href="/forgot-password" className="hover:underline hover:text-blue-400">Forgot Password?</a>
+        <div className="relative">
+          Don't have an account?{" "}
+          <a href="/signup" className="font-bold underline  hover:text-blue-400">
+            Sign up.
+          </a>
+        </div>
+      </div>
     </main>
   );
 };

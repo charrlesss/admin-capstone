@@ -177,6 +177,7 @@ export const SignupFormComponent = () => {
           />
 
           <TextField
+             autoComplete="on"
             size="small"
             label="Password"
             placeholder="password"
@@ -209,6 +210,7 @@ export const SignupFormComponent = () => {
           />
 
           <TextField
+             autoComplete="on"
             size="small"
             label="Confirm Password"
             placeholder="confirm password"
@@ -264,7 +266,7 @@ export const SignupFormComponent = () => {
             }
             label={
               <Typography variant="caption" className="text-black ">
-                agree to terms and conditions.
+               I agree to terms of conditions  and Privacy Policy.
               </Typography>
             }
           />
@@ -281,6 +283,14 @@ export const SignupFormComponent = () => {
           Sign up
         </Button>
       </form>
+      <div className="w-full text-black text-sm mt-2 ">
+        <div className="relative">
+        Already have an account?{" "}
+          <a href="/signin" className="font-bold text-blue-400">
+            Log in.
+          </a>
+        </div>
+      </div>
     </main>
   );
 };

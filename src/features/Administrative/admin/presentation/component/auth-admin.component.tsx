@@ -5,7 +5,7 @@ import { BiKey } from "react-icons/bi";
 import { IoEyeSharp } from "react-icons/io5";
 import { BsEyeSlashFill } from "react-icons/bs";
 import InputAdornment from "@mui/material/InputAdornment";
-import { useFormik } from "formik";
+import { Field, useFormik } from "formik";
 import * as yup from "yup";
 import { RiAdminLine } from "react-icons/ri";
 import axios from "axios";
@@ -65,11 +65,12 @@ export const AuthAdminComponent: React.FC = (): JSX.Element => {
                     Login your Account
                   </h3>
                   <div className="mt-2">
-                    <p className="text-sm text-gray-500">Welcome Admin</p>
+                    <p className="text-sm text-gray-500">
+                      Please login with your email and password below.
+                    </p>
                   </div>
                   <div className="flex flex-col gap-y-4 mt-4 ">
                     <TextField
-                      label="Email"
                       placeholder="email"
                       variant="outlined"
                       type="email"
@@ -88,9 +89,9 @@ export const AuthAdminComponent: React.FC = (): JSX.Element => {
                         ),
                       }}
                     />
+                 
 
                     <TextField
-                      label="Password"
                       placeholder="password"
                       variant="outlined"
                       type={passwordShow ? "text" : "password"}
@@ -124,10 +125,14 @@ export const AuthAdminComponent: React.FC = (): JSX.Element => {
                         ),
                       }}
                     />
+                    <div className="w-full">
+                      <a href="/">Forgot Password?</a>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+
             <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
               <div className="relative w-auto">
                 <Button

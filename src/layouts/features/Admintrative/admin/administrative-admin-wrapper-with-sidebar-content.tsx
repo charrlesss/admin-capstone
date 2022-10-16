@@ -4,7 +4,7 @@ import { Outlet, useOutlet } from "react-router-dom";
 import { useSideBarShowHideHooks } from "../../../../hooks/side-bar-show-hide.hooks";
 import { AdministrativeAdminHeader } from "./administrative-admin-header";
 import { AdministrativeAdminSidebar } from "./administrative-admin-sidebar";
-
+import { ContextComponent } from "../../../../features/shared/presentation/components/context.component";
 export const AdministrativeAdminWrapper: React.FC<{
   children: JSX.Element;
 }> = ({ children }): JSX.Element => {
@@ -20,8 +20,10 @@ export const AdministrativeAdminWrapper: React.FC<{
         <AdministrativeAdminSidebar callback={callback} isOpen={isShow} />
         <section className=" flex-1 transition-all duration-600   relative transition-all border">
           <AdministrativeAdminHeader callback={callback} open={isShow} />
-          <div className="px-10  h-[calc(100vh-theme(space.24))] overflow-y-scroll pt-10">
+          <div className="md:px-10 px-4 h-[calc(100vh-theme(space.24))] overflow-y-scroll pt-10">
+           <ContextComponent value={isShow}>
             {outlet ? <Outlet /> : children}
+           </ContextComponent>
           </div>
         </section>
       </section>

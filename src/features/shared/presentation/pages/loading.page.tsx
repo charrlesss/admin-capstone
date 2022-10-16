@@ -18,7 +18,7 @@ import {
   selectCompleteDetailsUser,
   completeDetailsState,
 } from "../slices/complete-details";
-import { SigninPages } from "./signin.pages";
+import { SigninSignupComponent } from "../components/signin-signup.component";
 import { selectUploadPhoto, UploadPhotoState } from "../slices/upload-photo";
 import {
   selectUpdateProfile,
@@ -41,6 +41,18 @@ import {
   selectChangePassword,
   ChangepasswordState,
 } from "../../../Administrative/client/profile/presentation/slices/change-password.slices";
+import {
+  selectForgotPassword,
+  ForgotPaswordState,
+} from "../slices/forgot-password.slices";
+import {
+  selectForgotPaswordCodeVerification,
+  ForgotPaswordCodeVerificationState,
+} from "../slices/forgot-password-code-verification.slices";
+import {
+  selectForgotPaswordUpdate,
+  ForgotPaswordUpdateState,
+} from "../slices/forgot-password-updated";
 
 export const LoadingPage: React.FC = (): JSX.Element => {
   const AuthUserSignin: any = useAppSelector(selectAuthUser);
@@ -60,6 +72,11 @@ export const LoadingPage: React.FC = (): JSX.Element => {
   const [openBackdropLoading, setOpenBackdropLoading] = useState(false);
   const uploadPhoto: any = useAppSelector(selectUploadPhoto);
   const updateProfile: any = useAppSelector(selectUpdateProfile);
+  const forgotPasword: any = useAppSelector(selectForgotPassword);
+  const forgotPaswordCodeVerification: any = useAppSelector(
+    selectForgotPaswordCodeVerification
+  );
+  const forgotPaswordUpdate: any = useAppSelector(selectForgotPaswordUpdate);
 
   const [successAlert, setSuccessAlert] = useState<{
     status: boolean;
@@ -120,7 +137,7 @@ export const LoadingPage: React.FC = (): JSX.Element => {
           return;
         }
         showAlert(setSuccessAlert, RegisterUserSignup.data.message);
-        window.location.reload();
+        window.location.href = "/";
         setOpenBackdropLoading(false);
         break;
       case RegisterClientState.fail:
@@ -283,6 +300,74 @@ export const LoadingPage: React.FC = (): JSX.Element => {
     }
   }, [changePassword, dispatch]);
 
+  useEffect(() => {
+    switch (forgotPasword.status) {
+      case ForgotPaswordState.inProgress:
+        setOpenBackdropLoading(true);
+        break;
+      case ForgotPaswordState.initial:
+        setOpenBackdropLoading(false);
+        break;
+      case ForgotPaswordState.success:
+        showAlert(setSuccessAlert, forgotPasword?.data?.message);
+        setOpenBackdropLoading(false);
+        break;
+      case ForgotPaswordState.fail:
+        showAlert(setFailsAlert, forgotPasword?.data.message);
+        setOpenBackdropLoading(false);
+        break;
+    }
+  }, [forgotPasword, dispatch]);
+
+  useEffect(() => {
+    switch (forgotPaswordCodeVerification.status) {
+      case ForgotPaswordCodeVerificationState.inProgress:
+        setOpenBackdropLoading(true);
+        break;
+      case ForgotPaswordCodeVerificationState.initial:
+        setOpenBackdropLoading(false);
+        break;
+      case ForgotPaswordCodeVerificationState.success:
+        showAlert(
+          setSuccessAlert,
+          forgotPaswordCodeVerification?.data?.message
+        );
+        setOpenBackdropLoading(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+
+        break;
+      case ForgotPaswordCodeVerificationState.fail:
+        showAlert(setFailsAlert, forgotPaswordCodeVerification?.data.message);
+        setOpenBackdropLoading(false);
+        break;
+    }
+  }, [forgotPaswordCodeVerification, dispatch]);
+
+  useEffect(() => {
+    switch (forgotPaswordUpdate.status) {
+      case ForgotPaswordUpdateState.inProgress:
+        setOpenBackdropLoading(true);
+        break;
+      case ForgotPaswordUpdateState.initial:
+        setOpenBackdropLoading(false);
+        break;
+      case ForgotPaswordUpdateState.success:
+        showAlert(setSuccessAlert, forgotPaswordUpdate?.data?.message);
+        setOpenBackdropLoading(false);
+        setTimeout(() => {
+          window.location.href ='/signin';
+        }, 1000);
+
+        break;
+      case ForgotPaswordUpdateState.fail:
+        showAlert(setFailsAlert, forgotPaswordUpdate?.data.message);
+        setOpenBackdropLoading(false);
+        break;
+    }
+  }, [forgotPaswordUpdate, dispatch]);
+
   return (
     <div>
       <Outlet />
@@ -297,7 +382,7 @@ export const LoadingPage: React.FC = (): JSX.Element => {
         message={failsAlert.message}
       />
       <BackdropLoading open={openBackdropLoading} />
-      <SigninPages
+      <SigninSignupComponent
         whatForm={openLoginChooserModal ? "signin" : ""}
         open={openLoginChooserModal}
         onClose={() => {
@@ -340,7 +425,7 @@ export function SnackbarAlert(props: SnackbarAlertProps) {
       <div className="hidden lg:block">
         <Snackbar
           open={props.open}
-          autoHideDuration={10000}
+          autoHideDuration={20000}
           sx={{ zIndex: 2004 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           TransitionComponent={Slide}
@@ -353,7 +438,7 @@ export function SnackbarAlert(props: SnackbarAlertProps) {
       <div className="lg:hidden">
         <Snackbar
           open={props.open}
-          autoHideDuration={10000}
+          autoHideDuration={20000}
           sx={{ zIndex: 2004, marginBottom: 7 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           TransitionComponent={Slide}

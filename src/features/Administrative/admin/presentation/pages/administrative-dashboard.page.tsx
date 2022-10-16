@@ -3,10 +3,12 @@ import { AdministrativeAdminBoxGraphComponent } from "../component/administrativ
 import { AdministrativeAdminCircleGraphComponent } from "../component/administrative-admin-circle-graph.component";
 import { AdministrativeAdminShcedulesComponent } from "../component/administrative-admin-shcedules.component";
 import { AdministrativeAdminWrapper } from "../../../../../layouts/features/Admintrative/admin/administrative-admin-wrapper-with-sidebar-content";
+import { BreadCrumbComponent } from "../../../../shared/presentation/components/bread-crumb.component";
 export const AdministrativeDashboardPage: React.FC = (): JSX.Element => {
   return (
     <AdministrativeAdminWrapper>
       <main className="w-full min-h-[100vh] max-h-auto relative mb-24 ">
+
         <div className="max-h-auto w-full grid xl:grid-cols-2  grid-cols-1 items-center  gap-10 ">
           <AdministrativeAdminShcedulesComponent />
           <div className="w-full  h-full border rounded-xl p-3 shadow shadow-lg bg-blue-900 shadow-lg shadow-blue-900">

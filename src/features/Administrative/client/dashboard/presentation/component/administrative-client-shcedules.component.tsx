@@ -12,7 +12,6 @@ export const AdministrativeClientShcedulesComponent: React.FC =
     const [subCon, setSubCon] = useState<Array<number> | undefined>(undefined);
 
     useEffect(() => {
-      setArrayData([1, 2, 3, 2, 4, 4, 521, 2]);
       setSubCon(arrayData);
       setSubCon((data) => {
         if (data === undefined) return;

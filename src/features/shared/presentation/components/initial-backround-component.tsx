@@ -3,7 +3,7 @@ import { useInterceptorAxios } from "../../../../lib/interceptor-axios";
 import Header from "../../../../layouts/header";
 import Footer from "../../../../layouts/footer";
 import { serviceData, ServiceDataType } from "../../data/card.data";
-import { SigninPages } from "../pages/signin.pages";
+import { SigninSignupComponent } from "./signin-signup.component";
 import { MdDashboard } from "react-icons/md";
 import {
   verifyUserEmail,
@@ -25,7 +25,6 @@ export const InitialBackroundComponent: React.FC = (): JSX.Element => {
     dispatch(verifyUserEmail());
   }, [dispatch]);
 
-  console.log(getVerifyUserEmail);
   if (getVerifyUserEmail?.data?.verifying) {
     return <ValidateEmail />;
   }
@@ -138,7 +137,7 @@ export const InitialBackroundComponent: React.FC = (): JSX.Element => {
         className="absolute w-full md:w-0 top-0  h-[300px] left-0 -z-50 block box-border bg-[#0099ff]	  "
       ></div>
 
-      <SigninPages
+      <SigninSignupComponent
         onClose={() => {
           setgoToReservation(false);
         }}

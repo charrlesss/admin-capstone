@@ -18,7 +18,11 @@ import verifyUserEmailWithCode from "../features/shared/presentation/slices/veri
 import removeAccountNotVerified from "../features/shared/presentation/slices/remove-acc-not-verified";
 import adminAuthentication from "../features/Administrative/admin/presentation/slices/admin-authentication.slices";
 import isAuthenticatedAdmin from "../features/Administrative/admin/presentation/slices/is-authenticated-admin.slices";
-import getAdminDetails from '../features/Administrative/admin/presentation/slices/get-admin-datails.slice'
+import getAdminDetails from "../features/Administrative/admin/presentation/slices/get-admin-datails.slice";
+import forgotPassword from "../features/shared/presentation/slices/forgot-password.slices";
+import forgotPaswordCodeVerification from "../features/shared/presentation/slices/forgot-password-code-verification.slices";
+import forgotPaswordAuthorize from "../features/shared/presentation/slices/forgot-password-authorize.slice";
+import forgotPasswordUpdate from "../features/shared/presentation/slices/forgot-password-updated";
 
 export const store = configureStore({
   reducer: {
@@ -41,7 +45,11 @@ export const store = configureStore({
     removeAccountNotVerified,
     adminAuthentication,
     isAuthenticatedAdmin,
-    getAdminDetails
+    getAdminDetails,
+    forgotPassword,
+    forgotPaswordCodeVerification,
+    forgotPaswordAuthorize,
+    forgotPasswordUpdate
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

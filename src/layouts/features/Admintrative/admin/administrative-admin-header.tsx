@@ -23,6 +23,18 @@ export const AdministrativeAdminHeader: React.FC<{
       url: "/administrative/appointments",
     },
     {
+      name: "pending",
+      url: "/administrative/appointments/pending",
+    },
+    {
+      name: "rejected",
+      url: "/administrative/appointments/rejected",
+    },
+    {
+      name: "accepted",
+      url: "/administrative/appointments/accepted",
+    },
+    {
       name: "Profile",
       url: "/administrative/profile",
     },
@@ -30,14 +42,23 @@ export const AdministrativeAdminHeader: React.FC<{
       name: "visitor",
       url: "/administrative/visitors",
     },
+    { name: "Create", url: "/administrative/visitors/create" },
+    { name: "Update", url: "/administrative/visitors/update" },
+    { name: "Delete", url: "/administrative/visitors/delete" },
     {
       name: "employee",
       url: "/administrative/employee",
     },
+    { name: "Create", url: "/administrative/employee/create" },
+    { name: "Update", url: "/administrative/employee/update" },
+    { name: "Delete", url: "/administrative/employee/delete" },
     {
       name: "facilities",
       url: "/administrative/facilities",
     },
+    { name: "Create", url: "/administrative/facilities/create" },
+    { name: "Update", url: "/administrative/facilities/update" },
+    { name: "Delete", url: "/administrative/facilities/delete" },
     {
       name: "documents",
       url: "/administrative/documents",

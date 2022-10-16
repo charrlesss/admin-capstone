@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
-import { SigninPages } from "../features/shared/presentation/pages/signin.pages";
+import { SigninSignupComponent } from "../features/shared/presentation/components/signin-signup.component";
 import { useInterceptorAxios } from "../lib/interceptor-axios";
 
 const Header: React.FC = (): JSX.Element => {
@@ -9,23 +9,42 @@ const Header: React.FC = (): JSX.Element => {
     useState<boolean>(false);
   const [openFormFor, setOpenFormFor] = useState<string>("");
   const { isAuthenticated } = useInterceptorAxios();
-
+  const [TABS, setTABS] = useState<Array<{ name: string; url: string }>>([]);
   const location = useLocation();
 
-  const TABS = [
+  const TABSAUTH = [
     {
       name: "features",
       url: "/",
     },
     {
-      name: isAuthenticated() ? "dashboard" : "features",
-      url: isAuthenticated() ? "/dashboard" : "/",
+      name: "dashboard",
+      url: "/dashboard",
     },
     {
       name: "contact",
       url: "/contact",
     },
   ];
+
+  const TABSNOTAUTH = [
+    {
+      name: "features",
+      url: "/",
+    },
+    {
+      name: "contact",
+      url: "/contact",
+    },
+  ];
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+      setTABS(TABSAUTH);
+      return;
+    }
+    setTABS(TABSNOTAUTH);
+  }, [isAuthenticated]);
 
   return (
     <header className={"sticky w-full top-0 z-20 hidden md:block bg-white"}>
@@ -38,7 +57,7 @@ const Header: React.FC = (): JSX.Element => {
           </h1>
           <div className="flex items-center justify-center space-x-4">
             <ul className="text-white font-semibold items-stretch h-[40px] justify-center hidden md:flex">
-              {TABS.map((tab: any, i) => {
+              {TABS?.map((tab: any, i) => {
                 return (
                   <li
                     key={i}
@@ -87,7 +106,7 @@ const Header: React.FC = (): JSX.Element => {
         </nav>
       </div>
 
-      <SigninPages
+      <SigninSignupComponent
         whatForm={openFormFor}
         open={openLoginChooserModal}
         onClose={() => {

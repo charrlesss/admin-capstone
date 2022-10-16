@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { MdOutlineFeaturedPlayList } from "react-icons/md";
 import { AiOutlineUser, AiTwotonePhone } from "react-icons/ai";
 import { BsFillCalendar2CheckFill, BsThreeDots } from "react-icons/bs";
-import { SigninPages } from "../features/shared/presentation/pages/signin.pages";
+import { SigninSignupComponent } from "../features/shared/presentation/components/signin-signup.component";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { useInterceptorAxios } from "../lib/interceptor-axios";
 import { MdDashboard } from "react-icons/md";
@@ -140,7 +140,7 @@ const Footer: React.FC = (): JSX.Element => {
         </ul>
       </nav>
       {!isAuthenticated() && (
-        <SigninPages
+        <SigninSignupComponent
           open={openLoginChooserModal}
           whatForm={openFormFor}
           onClose={() => {
