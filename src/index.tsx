@@ -104,8 +104,8 @@ root.render(
                 element={<AdministrativeAppoinmentsAcceptedPage />}
               />
             </Route>
-            <Route path="visitors" element={<AdministrativeVisitorPage />} >
-            <Route
+            <Route path="visitors" element={<AdministrativeVisitorPage />}>
+              <Route
                 path="create"
                 element={<AdministrativeVisitorCreatePage />}
               />
@@ -118,8 +118,8 @@ root.render(
                 element={<AdministrativeVisitorDeletePage />}
               />
             </Route>
-            <Route path="employee" element={<AdministrativeEmployeePage />} >
-            <Route
+            <Route path="employee" element={<AdministrativeEmployeePage />}>
+              <Route
                 path="create"
                 element={<AdministrativeEmployeeCreatePage />}
               />
@@ -131,13 +131,9 @@ root.render(
                 path="delete"
                 element={<AdministrativeEmployeeDeletePage />}
               />
-
             </Route>
-            <Route
-              path="facilities"
-              element={<AdministrativeFacilitiesPage />}
-            >
-               <Route
+            <Route path="facilities" element={<AdministrativeFacilitiesPage />}>
+              <Route
                 path="create"
                 element={<AdministrativeFacilitiesCreatePage />}
               />
