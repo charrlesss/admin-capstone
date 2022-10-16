@@ -35,7 +35,6 @@ export function AuthenticationRepository(): Promise<AuthenticationResponse> {
   return axios.get(`${REACT_APP_API}/authenticated-user`, {
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
     },
     withCredentials: true,
   });
@@ -48,9 +47,9 @@ export function GetClientRepository(params: {
   return params.interceptor.get(`/get-client-details`, {
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${params.ACCESS_TOKEN}`,
     },
+    withCredentials:true
   });
 }
 
@@ -60,9 +59,9 @@ export function GetLogoutClientRepository(params: {
 }): Promise<any> {
   return params.interceptor.delete(`/logout`, {
     headers: {
-      "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${params.ACCESS_TOKEN}`,
     },
+    withCredentials:true
   });
 }
 
@@ -71,10 +70,8 @@ export function VerifyUserEmailRepository(): Promise<VerifyUserEmailResponse> {
 
   return axios.get(process.env.REACT_APP_API + "/verifying-account", {
     withCredentials: true,
-
     headers: {
       "Content-Type": "appplication/json",
-      "Access-Control-Allow-Origin": "*",
     },
   });
 }
@@ -88,7 +85,6 @@ export function VerifyUserEmailWithCodeRepository(
     {
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
       },
       withCredentials: true,
     }
