@@ -48,7 +48,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <Provider store={store}>
-    <BrowserRouter basename="/">
+    <BrowserRouter basename={process.env.REACT_APP_DOMAIN_URL}>
       <Routes>
         <Route element={<LoadingPage />}>
           <Route path={process.env.REACT_APP_DOMAIN_URL} element={<App />} />
