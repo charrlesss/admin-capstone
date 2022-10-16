@@ -67,6 +67,8 @@ export function GetLogoutClientRepository(params: {
 }
 
 export function VerifyUserEmailRepository(): Promise<VerifyUserEmailResponse> {
+
+
   return axios.get(process.env.REACT_APP_API + "/verifying-account", {
     withCredentials: true,
 

@@ -14,6 +14,7 @@ import {
   useAppSelector,
 } from "../../../../hooks/dispatch-selector.hooks";
 import { ValidateEmail } from "./validate-email.component";
+import axios from "axios";
 
 export const InitialBackroundComponent: React.FC = (): JSX.Element => {
   const [goToReservation, setgoToReservation] = useState<boolean>(false);
@@ -25,10 +26,24 @@ export const InitialBackroundComponent: React.FC = (): JSX.Element => {
     dispatch(verifyUserEmail());
   }, [dispatch]);
 
+  useEffect(() => {
+    axios.get(`${process.env.REACT_APP_API}/authenticated-user`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      withCredentials: true,
+    }).then(console.log)
+  }, []);
+
+
+
   if (getVerifyUserEmail?.data?.verifying) {
     return <ValidateEmail />;
   }
 
+  console.log(getVerifyUserEmail)
+  console.log(getVerifyUserEmail)
   return (
     <main
       className="w-full max:h-[100vh] h-auto   "
